@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+  <head>
     <title>Карта СВО — Донбасс</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         html, body, #map {
             width: 100%;
@@ -12,32 +12,32 @@
             padding: 0;
         }
     </style>
-    <!-- ПОДКЛЮЧАЕМ API 3.0 (обратите внимание на /v3/ в ссылке) -->
     <script src="https://api-maps.yandex.ru/v3/?apikey=86684933-bc3e-42eb-afcb-98d932c74d44&lang=ru_RU"></script>
     <script>
+        // ВАЖНО: функция вызывается ДО своего объявления (hoisting)
+        initMap();
+
         async function initMap() {
-            // Ждём загрузки API
             await ymaps3.ready;
-            
-            // Создаём карту
-            const map = new ymaps3.YMap(
+
+            const {YMap, YMapDefaultSchemeLayer} = ymaps3;
+
+            const map = new YMap(
                 document.getElementById('map'),
                 {
                     location: {
-                        center: [38.0, 48.5],  // [долгота, широта] для Донбасса
+                        center: [38.0, 48.5],  // долгота, широта (Донбасс)
                         zoom: 8
                     }
                 }
             );
-            
-            // Добавляем слой с картой (схема, спутник и т.д.)
-            map.addChild(new ymaps3.YMapDefaultSchemeLayer());
+
+            map.addChild(new YMapDefaultSchemeLayer());
         }
-        
-        initMap();
     </script>
-</head>
-<body>
+  </head>
+
+  <body>
     <div id="map"></div>
-</body>
+  </body>
 </html>
