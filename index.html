@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта СВО — Донбасс</title>
+    <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <!-- Подключаем API Яндекс.Карт (2.0, архивная, но стабильная версия) -->
+    <script src="https://api-maps.yandex.ru/2.0-stable/?apikey=86684933-bc3e-42eb-afcb-98d932c74d44&load=package.standard&lang=ru-RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        // Ждём полной загрузки API и DOM
+        ymaps.ready(init);
+
+        function init() {
+            // Создаём карту. Центр — Донбасс (примерно Луганск-Донецк), масштаб 8 — средний, видны и города, и районы.
+            var myMap = new ymaps.Map("map", {
+                center: [48.5, 38.0], // Широта, долгота (центр Донбасса)
+                zoom: 8,              // Масштаб: 8 — оптимально для региона
+                controls: ["zoomControl", "fullscreenControl"] // Кнопки: масштаб и полноэкранный режим
+            });
+            
+            // Сюда вы позже сможете добавлять свои метки, например:
+            // var myPlacemark = new ymaps.Placemark([48.0, 37.8], {
+            //     hintContent: 'Пример метки',
+            //     balloonContent: 'Описание события'
+            // });
+            // myMap.geoObjects.add(myPlacemark);
+            
+            // Небольшая заглушка в консоль, чтобы убедиться, что карта создалась
+            console.log("Карта успешно загружена на Донбассе");
+        }
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
