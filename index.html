@@ -12,26 +12,24 @@
             padding: 0;
         }
     </style>
-    <!-- Сначала подключаем config.js с ключом -->
-    <script src="config.js"></script>
-    <!-- Затем подключаем API, используя переменную из config.js -->
+    <!-- Подключаем API 3.0 с вашим ключом -->
+    <script src="https://api-maps.yandex.ru/3.0/?apikey=86684933-bc3e-42eb-afcb-98d932c74d44&lang=ru_RU"></script>
     <script>
-        // Создаём динамический скрипт для загрузки API с ключом из config.js
-        var script = document.createElement('script');
-        script.src = 'https://api-maps.yandex.ru/2.0-stable/?apikey=' + YANDEX_MAPS_API_KEY + '&load=package.standard&lang=ru-RU';
-        document.head.appendChild(script);
-    </script>
-    <script type="text/javascript">
-        // Ждём загрузки API
-        ymaps.ready(init);
-
-        function init() {
-            var myMap = new ymaps.Map("map", {
-                center: [48.5, 38.0],
-                zoom: 8,
-                controls: ["zoomControl", "fullscreenControl"]
+        // Функция инициализации для API 3.0
+        async function initMap() {
+            await ymaps3.ready;
+            
+            // Создаём карту
+            const map = new ymaps3.Map('map', {
+                location: {
+                    center: [38.0, 48.5],  // [долгота, широта] — внимание, порядок changed!
+                    zoom: 8
+                },
+                controls: ['zoomControl', 'fullscreenControl']
             });
         }
+        
+        initMap();
     </script>
 </head>
 <body>
