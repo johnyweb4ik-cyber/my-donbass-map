@@ -12,19 +12,25 @@
             padding: 0;
         }
     </style>
-    <script src="https://api-maps.yandex.ru/2.0-stable/?apikey=86684933-bc3e-42eb-afcb-98d932c74d44&load=package.standard&lang=ru-RU" type="text/javascript"></script>
+    <!-- Сначала подключаем config.js с ключом -->
+    <script src="config.js"></script>
+    <!-- Затем подключаем API, используя переменную из config.js -->
+    <script>
+        // Создаём динамический скрипт для загрузки API с ключом из config.js
+        var script = document.createElement('script');
+        script.src = 'https://api-maps.yandex.ru/2.0-stable/?apikey=' + YANDEX_MAPS_API_KEY + '&load=package.standard&lang=ru-RU';
+        document.head.appendChild(script);
+    </script>
     <script type="text/javascript">
+        // Ждём загрузки API
         ymaps.ready(init);
 
         function init() {
             var myMap = new ymaps.Map("map", {
                 center: [48.5, 38.0],
                 zoom: 8,
-                controls: ["zoomControl", "fullscreenControl", "typeSelector"]
+                controls: ["zoomControl", "fullscreenControl"]
             });
-            
-            // Принудительно показываем кнопки масштаба в правом углу
-            myMap.controls.get("zoomControl").options.set({ position: { right: 10, top: 100 } });
         }
     </script>
 </head>
