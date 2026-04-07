@@ -1,1 +1,0 @@
-const YANDEX_MAPS_API_KEY = '86684933-bc3e-42eb-afcb-98d932c74d44';
