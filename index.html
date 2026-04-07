@@ -5,34 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Карта СВО — Донбасс</title>
     <style>
-        html, body, #map {
+        /* Карта должна занимать всё окно */
+        html, body, #app {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
         }
     </style>
-    <!-- Подключаем API 3.0 с вашим ключом -->
-    <script src="https://api-maps.yandex.ru/3.0/?apikey=86684933-bc3e-42eb-afcb-98d932c74d44&lang=ru_RU"></script>
+    <!-- 1. Подключаем API 3.0 с вашим ключом (источник: документация) -->
+    <script src="https://api-maps.yandex.ru/v3/?apikey=86684933-bc3e-42eb-afcb-98d932c74d44&lang=ru_RU"></script>
+    
+    <!-- 2. Ваш скрипт для создания карты -->
     <script>
-        // Функция инициализации для API 3.0
+        // Функция для инициализации карты (источник: документация)
         async function initMap() {
+            // Ждём полной загрузки API
             await ymaps3.ready;
-            
-            // Создаём карту
-            const map = new ymaps3.Map('map', {
-                location: {
-                    center: [38.0, 48.5],  // [долгота, широта] — внимание, порядок changed!
-                    zoom: 8
-                },
-                controls: ['zoomControl', 'fullscreenControl']
-            });
+
+            // Создаём карту. Порядок координат: [долгота, широта]
+            const map = new ymaps3.YMap(
+                document.getElementById('app'), // Контейнер
+                {                               // Параметры карты
+                    location: {
+                        center: [38.0, 48.5],   // Долгота, Широта для Донбасса
+                        zoom: 8                 // Масштаб (средний)
+                    }
+                }
+            );
+
+            // Добавляем слой с базовой картой (схема/спутник)
+            map.addChild(new ymaps3.YMapDefaultSchemeLayer());
         }
-        
+
+        // Запускаем инициализацию карты
         initMap();
     </script>
 </head>
 <body>
-    <div id="map"></div>
+    <!-- Контейнер для карты. id="app" соответствует коду выше -->
+    <div id="app"></div>
 </body>
 </html>
