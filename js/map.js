@@ -4,7 +4,9 @@ initMap();
 async function initMap() {
     await ymaps3.ready;
 
-    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapZoomControl } = ymaps3;
+    // Импортируем нужные компоненты (ВКЛЮЧАЯ КНОПКИ МАСШТАБА)
+    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer } = ymaps3;
+    const { YMapZoomControl } = await ymaps3.import('@yandex/ymaps3-controls@0.0.1');
 
     // Создаём карту с параметрами из config.js
     const map = new YMap(
@@ -22,8 +24,8 @@ async function initMap() {
     map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
     
     // Добавляем кнопки масштаба
-    map.addChild(new YMapZoomControl({ position: MAP_CONFIG.controls.zoom }));
+    map.addChild(new YMapZoomControl({ position: { right: 15, top: 100 } }));
 
-    // Сохраняем карту в глобальную переменную, чтобы markers.js мог добавлять метки
+    // Сохраняем карту в глобальную переменную
     window.myMap = map;
 }
