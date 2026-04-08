@@ -1,4 +1,4 @@
-// ИНИЦИАЛИЗАЦИЯ КАРТЫ С КНОПКАМИ МАСШТАБА (через пакет default-ui-theme)
+// ИНИЦИАЛИЗАЦИЯ КАРТЫ С КРУГЛЫМИ КНОПКАМИ МАСШТАБА
 initMap();
 
 async function initMap() {
@@ -10,7 +10,7 @@ async function initMap() {
     // Импортируем базовые компоненты карты
     const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapControls } = ymaps3;
     
-    // Импортируем компоненты из пакета темы
+    // Импортируем кнопки масштаба из пакета темы
     const themePkg = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
     const { YMapZoomControl } = themePkg;
 
@@ -30,15 +30,13 @@ async function initMap() {
     map.addChild(new YMapDefaultSchemeLayer());
     map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
     
-    // ========== ДОБАВЛЯЕМ КНОПКИ МАСШТАБА ==========
-    // Создаём контейнер для элементов управления
-    const controls = new YMapControls();
+    // Контейнер для кнопок — справа, отступ 15px сверху
+    const controls = new YMapControls({ 
+        position: { right: 15, top: 100 }
+    });
     
-    // Добавляем кнопки масштаба в контейнер
-    controls.addChild(new YMapZoomControl({
-        easing: 'ease-in-out',  // плавная анимация
-        duration: 200           // длительность анимации в мс
-    }));
+    // Добавляем круглые кнопки "+" и "-"
+    controls.addChild(new YMapZoomControl());
     
     // Добавляем контейнер на карту
     map.addChild(controls);
