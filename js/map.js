@@ -14,12 +14,15 @@ async function initMap() {
     const pkg = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
     const { 
         YMapZoomControl,        // Кнопки масштаба (+ и -)
-        YMapGeolocationControl, // Кнопка геолокации (моё местоположение)
-        YMapRotateControl,      // Кнопка поворота карты
-        YMapTiltControl         // Кнопка наклона карты
+        YMapGeolocationControl, // Кнопка геолокации
+        YMapRotateControl,      // Кнопка поворота
+        YMapTiltControl         // Кнопка наклона
     } = pkg;
 
-    // Создаём карту с параметрами из config.js
+    // Импортируем контейнер для элементов управления из основного API
+    const { YMapControls } = ymaps3;
+
+    // Создаём карту
     const map = new YMap(
         document.getElementById('map'),
         {
@@ -27,36 +30,27 @@ async function initMap() {
                 center: MAP_CONFIG.center,
                 zoom: MAP_CONFIG.zoom
             },
-            behaviors: ['drag', 'scrollZoom', 'pinchZoom', 'dblClick'] // Все способы управления
+            behaviors: ['drag', 'scrollZoom', 'pinchZoom', 'dblClick']
         }
     );
 
     // Добавляем слои карты
-    map.addChild(new YMapDefaultSchemeLayer());      // Схема карты
-    map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 })); // Объекты на карте
+    map.addChild(new YMapDefaultSchemeLayer());
+    map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
     
     // ========== ДОБАВЛЯЕМ КНОПКИ УПРАВЛЕНИЯ ==========
+    // Создаём контейнер для кнопок в правом верхнем углу
+    const controlsContainer = new YMapControls({ position: { right: 15, top: 100 } });
     
-    // Кнопки масштаба (+ и -) - в правом верхнем углу
-    map.addChild(new YMapZoomControl({ 
-        position: { right: 15, top: 100 } 
-    }));
+    // Добавляем кнопки в контейнер
+    controlsContainer.addChild(new YMapZoomControl({}));
+    controlsContainer.addChild(new YMapGeolocationControl({}));
+    controlsContainer.addChild(new YMapRotateControl({}));
+    controlsContainer.addChild(new YMapTiltControl({}));
     
-    // Кнопка геолокации (определить моё местоположение) - под масштабом
-    map.addChild(new YMapGeolocationControl({ 
-        position: { right: 15, top: 170 } 
-    }));
-    
-    // Кнопка поворота карты (компас) - рядом с масштабом
-    map.addChild(new YMapRotateControl({ 
-        position: { right: 15, top: 240 } 
-    }));
-    
-    // Кнопка наклона карты (3D-вид) - под поворотом
-    map.addChild(new YMapTiltControl({ 
-        position: { right: 15, top: 310 } 
-    }));
+    // Добавляем контейнер на карту
+    map.addChild(controlsContainer);
 
-    // Сохраняем карту в глобальную переменную для доступа из markers.js
+    // Сохраняем карту в глобальную переменную
     window.myMap = map;
 }
