@@ -1,18 +1,14 @@
-// ИНИЦИАЛИЗАЦИЯ КАРТЫ С КРУГЛЫМИ КНОПКАМИ МАСШТАБА
+// ИНИЦИАЛИЗАЦИЯ КАРТЫ — ПРОСТОЙ РАБОЧИЙ ВАРИАНТ
 initMap();
 
 async function initMap() {
     await ymaps3.ready;
 
-    // Регистрируем CDN для пакета с темой оформления
-    ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', '@yandex/ymaps3-default-ui-theme@latest');
-
-    // Импортируем базовые компоненты карты
-    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapControls } = ymaps3;
+    // Импортируем базовые компоненты
+    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer } = ymaps3;
     
-    // Импортируем кнопки масштаба из пакета темы
-    const themePkg = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
-    const { YMapZoomControl } = themePkg;
+    // Импортируем кнопки масштаба из официального пакета controls
+    const { YMapZoomControl } = await ymaps3.import('@yandex/ymaps3-controls@0.0.1');
 
     // Создаём карту
     const map = new YMap(
@@ -30,17 +26,10 @@ async function initMap() {
     map.addChild(new YMapDefaultSchemeLayer());
     map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
     
-    // Создаём контейнер для кнопок (без position, он не поддерживается)
-    const controls = new YMapControls();
-    
-    // Добавляем круглые кнопки "+" и "-"
-    controls.addChild(new YMapZoomControl({
-        easing: 'ease-in-out',
-        duration: 200
+    // Добавляем кнопки масштаба (прямо на карту, без дополнительных контейнеров)
+    map.addChild(new YMapZoomControl({ 
+        position: { right: 15, top: 100 } 
     }));
-    
-    // Добавляем контейнер на карту
-    map.addChild(controls);
 
     // Сохраняем карту в глобальную переменную
     window.myMap = map;
