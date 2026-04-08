@@ -5,11 +5,3 @@ html, body, #map {
     padding: 0;
 }
 
-/* Принудительное позиционирование контейнера с кнопками масштаба */
-.ymaps3-controls {
-    position: absolute !important;
-    right: 15px !important;
-    top: 100px !important;
-    left: auto !important;
-    bottom: auto !important;
-}
