@@ -30,13 +30,14 @@ async function initMap() {
     map.addChild(new YMapDefaultSchemeLayer());
     map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
     
-    // Контейнер для кнопок — справа, отступ 15px сверху
-    const controls = new YMapControls({ 
-        position: { right: 15, top: 100 }
-    });
+    // Создаём контейнер для кнопок (без position, он не поддерживается)
+    const controls = new YMapControls();
     
     // Добавляем круглые кнопки "+" и "-"
-    controls.addChild(new YMapZoomControl());
+    controls.addChild(new YMapZoomControl({
+        easing: 'ease-in-out',
+        duration: 200
+    }));
     
     // Добавляем контейнер на карту
     map.addChild(controls);
