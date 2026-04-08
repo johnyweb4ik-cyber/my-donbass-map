@@ -4,23 +4,11 @@ initMap();
 async function initMap() {
     await ymaps3.ready;
 
-    // Регистрируем CDN для загрузки пакета с темой оформления
-    ymaps3.import.registerCdn('https://cdn.jsdelivr.net/npm/{package}', '@yandex/ymaps3-default-ui-theme@latest');
-
     // Импортируем базовые компоненты карты
-    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer } = ymaps3;
+    const { YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapControls } = ymaps3;
     
-    // Импортируем элементы управления из пакета темы
-    const pkg = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
-    const { 
-        YMapZoomControl,        // Кнопки масштаба (+ и -)
-        YMapGeolocationControl, // Кнопка геолокации
-        YMapRotateControl,      // Кнопка поворота
-        YMapTiltControl         // Кнопка наклона
-    } = pkg;
-
-    // Импортируем контейнер для элементов управления из основного API
-    const { YMapControls } = ymaps3;
+    // Импортируем кнопку масштаба из основного API (простой и надёжный вариант)
+    const { YMapZoomControl } = await ymaps3.import('@yandex/ymaps3-controls@0.0.1');
 
     // Создаём карту
     const map = new YMap(
@@ -38,18 +26,11 @@ async function initMap() {
     map.addChild(new YMapDefaultSchemeLayer());
     map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
     
-    // ========== ДОБАВЛЯЕМ КНОПКИ УПРАВЛЕНИЯ ==========
-    // Создаём контейнер для кнопок в правом верхнем углу
-    const controlsContainer = new YMapControls({ position: { right: 15, top: 100 } });
-    
-    // Добавляем кнопки в контейнер
-    controlsContainer.addChild(new YMapZoomControl({}));
-    controlsContainer.addChild(new YMapGeolocationControl({}));
-    controlsContainer.addChild(new YMapRotateControl({}));
-    controlsContainer.addChild(new YMapTiltControl({}));
-    
-    // Добавляем контейнер на карту
-    map.addChild(controlsContainer);
+    // ========== ДОБАВЛЯЕМ КНОПКИ МАСШТАБА ==========
+    // Простой способ — напрямую добавляем контрол без дополнительного контейнера
+    map.addChild(new YMapZoomControl({ 
+        position: { right: 15, top: 100 } 
+    }));
 
     // Сохраняем карту в глобальную переменную
     window.myMap = map;
