@@ -1,4 +1,4 @@
-// ИНИЦИАЛИЗАЦИЯ КАРТЫ — ПРОСТОЙ РАБОЧИЙ ВАРИАНТ
+// ИНИЦИАЛИЗАЦИЯ КАРТЫ С ПОДКЛЮЧЁННОЙ ТЕМОЙ
 initMap();
 
 async function initMap() {
@@ -23,6 +23,13 @@ async function initMap() {
     map.addChild(new YMapDefaultSchemeLayer());
     map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
     
+    // Подключаем стандартный UI (кнопки зума, геолокация, сброс)
+    const { YMapDefaultUI } = ymaps3.defaultUiTheme;
+    const ui = new YMapDefaultUI({ 
+        position: 'right',
+        orientation: 'vertical'
+    });
+    map.addChild(ui);
 
     // Сохраняем карту в глобальную переменную
     window.myMap = map;
