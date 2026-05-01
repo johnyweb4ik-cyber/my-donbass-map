@@ -47,4 +47,5 @@ async function initMap() {
 
     // Сохраняем карту в глобальную переменную
     window.myMap = map;
+        loadBorders();
 }
