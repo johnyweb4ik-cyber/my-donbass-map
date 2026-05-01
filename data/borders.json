@@ -1,0 +1,22 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Тестовый полигон",
+                "description": "Проверка отрисовки"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [37.5, 47.8],
+                    [38.5, 47.8],
+                    [38.5, 47.0],
+                    [37.5, 47.0],
+                    [37.5, 47.8]
+                ]]
+            }
+        }
+    ]
+}
